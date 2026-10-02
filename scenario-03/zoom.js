@@ -1,0 +1,115 @@
+'use strict';
+(()=>{
+ const {countries,nodes,places}=window.SCENARIO_DATA;
+ const stages=window.SCENARIO_TIMELINE;let currentYear=2026;
+ const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)],NS='http://www.w3.org/2000/svg';
+ const svg=(tag,attrs={})=>{const e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,String(v)));return e};
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ const baseBox=[0,90,1000,563],closeBox=[420,167,180,101];
+ const world=q('#world-map'),graphic=q('#graphic'),cityArt=q('#city-art'),finalImage=q('#city-final'),ground=q('.scene-ground'),hotspots=q('#hotspots'),caption=q('#canvas-caption');
+ let koreaReady=false,yearChanging=false,pendingYear=2026;
+ const years=[2026,2050,2070],slider=q('#year-slider');
+ let state='map',selected='korea',filter='all',currentPlace=0,transitionID=0,frameID=0,animations=[];
+ const visited=new Set();
+ const districts=window.CITY_CONTOURS.map(d=>({...d}));
+ // Main subjects enter as cut-outs (as in Scenario 01 and 02); SVG clip paths keep exact image registration at every size.
+ districts.forEach(d=>{const el=document.createElement('div');el.className='district';el.dataset.district=d.id;const layer=svg('svg',{viewBox:'0 0 1672 941','aria-hidden':'true'});const defs=svg('defs'),clip=svg('clipPath',{id:'subject-'+d.id,clipPathUnits:'userSpaceOnUse'});clip.append(svg('path',{d:d.path,'clip-rule':'evenodd'}));defs.append(clip);const image=svg('image',{href:finalImage.getAttribute('src'),width:1672,height:941,'clip-path':'url(#subject-'+d.id+')'});layer.append(defs,image);el.append(layer);q('#districts').append(el);d.el=el});
+ function drawLinks(){
+  q('#connections').replaceChildren();
+  stages[currentYear].links.forEach(([a,b,type])=>{
+   const A=nodes[a],B=nodes[b];
+   const el=svg('path',{d:`M${A.x} ${A.y} L${B.x} ${B.y}`,class:`map-link ${type}`});
+   el.dataset.a=a;el.dataset.b=b;el.dataset.type=type;q('#connections').append(el);
+  });
+ }
+ function mapCaption(){caption.innerHTML='<span class="legend-chip"></span>'+stages[currentYear].caption+'<span class="caption-right">'+currentYear+' / Select an actor</span>'}
+ function lockTimeline(locked){q('#timeline').classList.toggle('locked',locked);slider.disabled=locked;qa('[data-year]').forEach(b=>b.disabled=locked)}
+ function renderYear(year){
+  currentYear=year;koreaReady=false;graphic.dataset.year=String(year);
+  q('#timeline-note').textContent=stages[year].note;q('#scale-label').textContent='01 / THE CIRCUIT · '+year;
+  qa('[data-year]').forEach(b=>{const active=Number(b.dataset.year)===year;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});
+  world.setAttribute('aria-label',`Cultural system in ${year}. Select an actor for information.`+(year===2070?' Select South Korea twice to enter the Baeksang festival.':''));
+  q('#load-error').hidden=true;drawLinks();selectCountry(selected);mapCaption();
+  q('#announcer').textContent=year+'. '+stages[year].title+'. '+stages[year].note+(year===2070?' The Baeksang festival is available through South Korea.':'');
+ }
+
+ function sliderPosition(value){slider.value=String(value);slider.style.setProperty('--progress',value/2*100+'%');const year=years[Math.round(value)];slider.setAttribute('aria-valuetext',year+' — '+stages[year].title)}
+ async function selectYear(year){
+  if(state!=='map'||!stages[year])return;
+  pendingYear=year;
+  if(yearChanging||year===currentYear)return;
+  yearChanging=true;koreaReady=false;graphic.setAttribute('aria-busy','true');q('#country-panel').inert=true;enableMap(false);
+  const surfaces=[q('#connections'),caption,q('#country-panel'),q('#timeline-note')];
+  async function fade(from,to,duration){const batch=surfaces.map(el=>el.animate([{opacity:from},{opacity:to}],{duration:reduced.matches?60:duration,easing:'ease-in-out',fill:'forwards'}));await Promise.allSettled(batch.map(a=>a.finished));surfaces.forEach(el=>el.style.opacity=String(to));batch.forEach(a=>a.cancel())}
+  try{
+   while(pendingYear!==currentYear){
+    await fade(1,0,220);
+    renderYear(pendingYear);
+    await fade(0,1,340);
+   }
+  }finally{
+   surfaces.forEach(el=>el.style.opacity='1');yearChanging=false;graphic.setAttribute('aria-busy','false');q('#country-panel').inert=false;enableMap(true);
+  }
+ }
+ slider.addEventListener('input',()=>{if(state!=='map')return;sliderPosition(Number(slider.value));selectYear(years[Math.round(Number(slider.value))])});
+ slider.addEventListener('change',()=>{if(state!=='map')return;const index=Math.round(Number(slider.value));sliderPosition(index);selectYear(years[index])});
+ slider.addEventListener('keydown',e=>{if(state!=='map')return;const offsets={ArrowLeft:-1,ArrowDown:-1,ArrowRight:1,ArrowUp:1};if(!(e.key in offsets)&&e.key!=='Home'&&e.key!=='End')return;e.preventDefault();const index=e.key==='Home'?0:e.key==='End'?2:Math.max(0,Math.min(2,Math.round(Number(slider.value))+offsets[e.key]));sliderPosition(index);selectYear(years[index])});
+ qa('[data-year]').forEach((b,i)=>{b.addEventListener('click',()=>{if(state!=='map')return;sliderPosition(i);selectYear(years[i])});b.addEventListener('keydown',e=>{const keys=['ArrowLeft','ArrowRight','Home','End'];if(!keys.includes(e.key)||state!=='map')return;e.preventDefault();const buttons=qa('[data-year]');const next=e.key==='Home'?0:e.key==='End'?2:(i+(e.key==='ArrowRight'?1:2))%3;buttons[next].focus();sliderPosition(next);selectYear(years[next])})});
+ Object.entries(nodes).forEach(([id,n])=>{
+  const g=svg('g',{class:`node actor ${n.kind}`,role:'button',tabindex:0,'aria-label':id==='korea'?'South Korea: view country information':`Explore ${countries[id].name}`,'aria-pressed':'false'});
+  g.dataset.country=id;
+  g.append(svg('rect',{x:n.x-75,y:n.y-31,width:150,height:63,rx:7,class:'actor-card'}));
+  const title=svg('text',{x:n.x,y:n.y-5,'text-anchor':'middle',class:'node-label'});title.textContent=n.label;g.append(title);
+  const sub=svg('text',{x:n.x,y:n.y+16,'text-anchor':'middle',class:'node-sub'});sub.textContent=n.sub;g.append(sub);
+  g.addEventListener('click',()=>activateCountry(id));
+  g.addEventListener('keydown',e=>{if(e.repeat)return;if(e.key==='Enter'||e.key===' '){e.preventDefault();activateCountry(id)}});
+  q('#countries').append(g);
+ });
+ function updateKoreaHint(){
+  const available=currentYear===2070,ready=available&&selected==='korea'&&koreaReady;
+  const node=q('.node[data-country="korea"]');
+  node.setAttribute('aria-label',ready?'South Korea: activate again to enter the Baeksang festival':'South Korea: view country information');
+  if(state==='map'||state==='exiting'){
+   q('#instruction').classList.toggle('click-prompt',available);q('#instruction').innerHTML=available?(ready?'Click <strong>South Korea</strong> again to enter Baeksang.':'Click <strong>South Korea</strong> to view its information.'):'Explore cultural relationships.';
+   q('.korea-tip').innerHTML=!available?'Explore this year’s country information.':ready?'Read South Korea’s information here. Click <strong>South Korea</strong> again to enter the festival.':'Select <strong>South Korea</strong> to read its country information. Click it again to enter the festival.';
+  }
+ }
+ function activateCountry(id){
+  if(state!=='map'||yearChanging)return;
+  if(currentYear===2070&&id==='korea'&&selected==='korea'&&koreaReady){enterCity();return}
+  selectCountry(id);koreaReady=currentYear===2070&&id==='korea';updateKoreaHint();
+  if(koreaReady)q('#announcer').textContent='South Korea information is displayed. Activate South Korea again to enter the Baeksang festival.';
+ }
+ function selectCountry(id){if(!countries[id])return;koreaReady=false;selected=id;const c=stages[currentYear].countries[id];['name','code','category','role','description','tension'].forEach(key=>q('#country-'+key).textContent=c[key]);q('#relationships').replaceChildren();c.relations.forEach(([target,name,description])=>{const b=document.createElement('button');b.className='relationship';const strong=document.createElement('b');strong.textContent=name;const text=document.createElement('span');text.textContent=description;b.append(strong,text);b.dataset.targetCountry=target;b.addEventListener('click',()=>activateCountry(target));q('#relationships').append(b)});qa('[data-country]').forEach(el=>{const active=el.dataset.country===id;el.classList.toggle('selected',active);if(el.getAttribute('role')==='button')el.setAttribute('aria-pressed',String(active))});updateLinks();updateKoreaHint()}
+ function updateLinks(){qa('.map-link').forEach(el=>{el.classList.toggle('focused',el.dataset.a===selected||el.dataset.b===selected);el.classList.toggle('filtered',filter!=='all'&&el.dataset.type!==filter)})}
+ qa('[data-filter]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;qa('[data-filter]').forEach(x=>{x.classList.toggle('selected',x===b);x.setAttribute('aria-pressed',String(x===b))});updateLinks()}));
+ function enableMap(enabled){world.style.pointerEvents=enabled?'auto':'none';world.setAttribute('aria-hidden',String(!enabled));qa('.node').forEach(n=>n.setAttribute('tabindex',enabled?'0':'-1'))}
+ function enableCity(enabled){hotspots.inert=!enabled;hotspots.setAttribute('aria-hidden',String(!enabled));hotspots.classList.toggle('ready',enabled);cityArt.setAttribute('aria-hidden',String(!enabled))}
+ function cancelAnimations(){transitionID++;cancelAnimationFrame(frameID);animations.forEach(a=>a.cancel());animations=[];return transitionID}
+ function play(el,frames,options){const a=el.animate(frames,{fill:'both',...options});animations.push(a);return a.finished.catch(()=>{})}
+ function tweenBox(from,to,duration,id){return new Promise(resolve=>{const start=performance.now();function step(now){if(id!==transitionID){resolve();return}const t=Math.min(1,(now-start)/duration),e=1-Math.pow(1-t,3);world.setAttribute('viewBox',from.map((n,i)=>(n+(to[i]-n)*e).toFixed(3)).join(' '));if(t<1)frameID=requestAnimationFrame(step);else resolve()}frameID=requestAnimationFrame(step)})}
+ function setHeader(city){q('#scale-label').textContent=city?'02 / SEOUL · 2070':'01 / THE CIRCUIT · '+currentYear;q('#page-title').textContent=city?'Inside Baeksang.':'Baeksang.';q('#instruction').classList.remove('click-prompt');q('#instruction').innerHTML=city?'Select a place to explore the festival.':'Click <strong>South Korea</strong> to view its information.';q('#country-panel').hidden=city;q('#city-panel').hidden=!city;q('#filters').hidden=city;q('#footer-note').textContent=city?'Six places. One possible future.':'A simplified view of cultural influence.';q('.info-panel').scrollTop=0;if(!city)updateKoreaHint()}
+ function imageReady(){if(finalImage.complete)return Promise.resolve(finalImage.naturalWidth>0);return new Promise(resolve=>{finalImage.addEventListener('load',()=>resolve(true),{once:true});finalImage.addEventListener('error',()=>resolve(false),{once:true})})}
+ async function enterCity(){if(state!=='map'||yearChanging||currentYear!==2070)return;state='loading';lockTimeline(true);graphic.dataset.view='loading';q('#instruction').classList.remove('click-prompt');q('#instruction').textContent='';q('#return-map').hidden=false;q('#announcer').textContent='Opening the Baeksang festival.';graphic.setAttribute('aria-busy','true');const loaded=await imageReady();if(state!=='loading')return;if(!loaded){state='map';lockTimeline(false);graphic.dataset.view='map';setHeader(false);q('#return-map').hidden=true;graphic.setAttribute('aria-busy','false');q('#load-error').hidden=false;return}
+  const id=cancelAnimations(),short=reduced.matches;state='entering';graphic.dataset.view='entering';enableMap(false);enableCity(false);q('#return-map').hidden=false;q('#return-map').focus({preventScroll:true});cityArt.style.visibility='visible';finalImage.style.opacity='0';q('#load-error').hidden=true;
+  const work=[play(world,[{opacity:1},{opacity:1,offset:.35},{opacity:0}],{duration:short?170:1050,easing:'ease-in-out'}),tweenBox(baseBox,closeBox,short?1:1050,id),play(ground,[{opacity:0},{opacity:1}],{duration:short?160:800,delay:short?0:380}),play(caption,[{opacity:1},{opacity:0}],{duration:short?70:280})];
+  districts.forEach(d=>work.push(play(d.el,[{opacity:0,transform:short?'none':`translate(${d.x}%,${d.y}%)`},{opacity:1,transform:'translate(0%,0%) scale(1)'}],{duration:short?180:850,delay:short?0:360,easing:'cubic-bezier(.16,1,.3,1)'})));
+  work.push(play(finalImage,[{opacity:0},{opacity:1}],{duration:short?160:320,delay:short?0:900,easing:'ease-in-out'}));
+  await Promise.allSettled(work);if(id!==transitionID)return;animations.forEach(a=>a.cancel());animations=[];ground.style.opacity='1';world.style.opacity='0';caption.style.opacity='0';finalImage.style.opacity='1';districts.forEach(d=>d.el.style.opacity='0');state='city';graphic.dataset.view='city';setHeader(true);caption.innerHTML='<span class="legend-chip"></span>BAEKSANG / SEOUL 2070<span class="caption-right">Explore the six places</span>';enableCity(true);graphic.setAttribute('aria-busy','false');play(caption,[{opacity:0},{opacity:1}],{duration:short?1:250});await play(hotspots,[{opacity:0},{opacity:1}],{duration:short?1:340});if(id===transitionID)q('#announcer').textContent='Baeksang is open. Six places are available to explore.';
+ }
+ async function returnMap(country=selected){if(state==='map')return;const previous=state;const id=cancelAnimations(),short=reduced.matches;state='exiting';lockTimeline(true);graphic.dataset.view='exiting';graphic.setAttribute('aria-busy','true');enableCity(false);enableMap(false);q('#load-error').hidden=true;selectCountry(country);setHeader(false);hotspots.style.opacity='0';caption.style.opacity='0';ground.style.opacity='1';finalImage.style.opacity='1';world.setAttribute('viewBox',closeBox.join(' '));
+  const work=[play(world,[{opacity:0},{opacity:1}],{duration:short?140:750,delay:short?0:180}),tweenBox(closeBox,baseBox,short?1:980,id),play(ground,[{opacity:1},{opacity:0}],{duration:short?120:600,delay:short?0:200}),play(finalImage,[{opacity:1},{opacity:0}],{duration:short?100:250})];
+  if(previous==='city'&&!short)districts.forEach((d,i)=>work.push(play(d.el,[{opacity:1,transform:'translate(0%,0%)'},{opacity:0,transform:`translate(${d.x*.45}%,${d.y*.45}%)`}],{duration:540,delay:i*28,easing:'ease-in'})));
+  await Promise.allSettled(work);if(id!==transitionID)return;cancelAnimations();state='map';lockTimeline(false);graphic.dataset.view='map';world.style.opacity='1';world.setAttribute('viewBox',baseBox.join(' '));ground.style.opacity='0';cityArt.style.visibility='hidden';finalImage.style.opacity='0';districts.forEach(d=>d.el.style.opacity='0');hotspots.style.opacity='0';caption.style.opacity='1';mapCaption();q('#return-map').hidden=true;enableMap(true);graphic.setAttribute('aria-busy','false');q(`.node[data-country="${country}"]`).focus({preventScroll:true});q('#announcer').textContent='Cultural system diagram restored. Select South Korea twice in 2070 to enter Baeksang.';
+ }
+ q('#return-map').addEventListener('click',()=>returnMap());q('#retry-image').addEventListener('click',()=>{q('#load-error').hidden=true;finalImage.src=finalImage.dataset.src;districts.forEach(d=>d.el.querySelector('image').setAttribute('href',finalImage.dataset.src));enterCity()});
+ places.forEach((p,i)=>{const b=document.createElement('button');b.className='pin'+(p.x>=75?' left':'');b.style.left=p.x+'%';b.style.top=p.y+'%';b.dataset.place=p.id;b.setAttribute('aria-label',`Explore ${p.label}`);b.setAttribute('aria-haspopup','dialog');b.innerHTML='<span class="pin-circle">+</span><span class="pin-label"></span>';b.querySelector('.pin-label').textContent=p.label;b.addEventListener('click',()=>openPlace(i));hotspots.append(b);const list=document.createElement('button');list.dataset.place=p.id;list.setAttribute('aria-haspopup','dialog');const num=document.createElement('span');num.textContent=String(i+1).padStart(2,'0');list.append(num,document.createTextNode(p.label));list.addEventListener('click',()=>openPlace(i));q('#place-list').append(list)});
+ const placeDialog=q('#place-dialog');
+ function openPlace(i){if(state!=='city')return;currentPlace=i;const p=places[i];visited.add(p.id);q('#place-category').textContent=p.category;q('#place-location').textContent=p.location;q('#place-title').textContent=p.title;q('#place-moment').textContent=p.moment;q('#place-explanation').textContent=p.explanation;q('#place-progress').textContent=String(i+1).padStart(2,'0')+' / '+String(places.length).padStart(2,'0');q('#next-place').textContent=i===places.length-1?'First place':'Next place';q('#explored').textContent=visited.size+' / '+places.length+' explored';qa('[data-place]').forEach(el=>{const v=visited.has(el.dataset.place);el.classList.toggle('visited',v)});if(!placeDialog.open)placeDialog.showModal();placeDialog.scrollTop=0;placeDialog.querySelector('.close-dialog').focus({preventScroll:true})}
+ q('#next-place').addEventListener('click',()=>openPlace((currentPlace+1)%places.length));q('#trace').addEventListener('click',()=>fadeClose(placeDialog,()=>returnMap(places[currentPlace].country)));
+ // Dialogs fade in through CSS and fade out here before they actually close; the timer closes them even if
+ // the browser skips the animation (for example in a background tab).
+ function fadeClose(d,then){if(!d.open||d.classList.contains('closing'))return;let finished=false;const done=()=>{if(finished)return;finished=true;d.classList.remove('closing');d.close();if(then)then()};if(reduced.matches){done();return}d.classList.add('closing');d.addEventListener('animationend',e=>{if(e.target===d)done()},{once:true});setTimeout(done,300)}
+ qa('dialog').forEach(d=>{d.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();fadeClose(d)}});d.addEventListener('cancel',e=>{e.preventDefault();fadeClose(d)});d.addEventListener('close',()=>d.classList.remove('closing'));d.querySelector('.close-dialog').addEventListener('click',()=>fadeClose(d));d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)fadeClose(d)}})});q('#about-button').addEventListener('click',()=>q('#about-dialog').showModal());document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!qa('dialog').some(d=>d.open)&&state!=='map')returnMap()});
+ function fitGraphic(){const area=q('.visual-area');const w=Math.max(1,Math.min(area.clientWidth,area.clientHeight*1672/941));graphic.style.width=w+'px';graphic.style.height=w*941/1672+'px'}new ResizeObserver(fitGraphic).observe(q('.visual-area'));fitGraphic();renderYear(2026);sliderPosition(0);enableCity(false);
+})();

@@ -53,3 +53,6 @@ dialog[open]{animation:dialog-fade-in .25s ease-out}dialog[open]::backdrop{anima
 
 /* Only the 2070 click prompt is orange; the place to click stays mint. */
 #instruction.click-prompt{color:var(--coral)}
+
+/* With three scenario tabs, narrow screens keep only the EA mark so the brand never wraps. */
+@media(max-width:480px){.brand{font-size:0;gap:0}.brand>span{font-size:10px}}

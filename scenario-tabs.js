@@ -1,4 +1,4 @@
-// Shows one scenario frame at a time and keeps the choice in the URL hash (#scenario-01 / #scenario-02).
+// Shows one scenario frame at a time and keeps the choice in the URL hash (#scenario-01, -02, -03).
 // The tabs live inside each scenario page; they post {scenarioTab:id} here to switch.
 // Nothing loads until the password screen is passed; each frame loads the first time it is shown.
 (()=>{const frames=[...document.querySelectorAll('iframe[id^="scenario-"]')];

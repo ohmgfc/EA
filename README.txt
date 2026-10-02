@@ -1,28 +1,29 @@
-East Asia Futures — Web Demo（Scenario 01 + Scenario 02）
+East Asia Futures — Web Demo（Scenario 01、02、03）
 
 開啟方式
 1. 打開資料夾最外層的 index.html（使用 Chrome、Edge、Firefox 或 Safari）。
-2. 請保留整個資料夾的結構，不要拆開 scenario-01/ 和 scenario-02/。
+2. 請保留整個資料夾的結構，不要拆開 scenario-01/、scenario-02/ 和 scenario-03/。
 不需要安裝套件、啟動伺服器或連接網絡。
 
 資料夾結構
 index.html        網頁入口：預設打開 Scenario 01，只負責顯示其中一個情境與切換分頁
-scenario-tabs.js  分頁切換；網址加 #scenario-01 或 #scenario-02 會直接開在該分頁
+scenario-tabs.js  分頁切換；網址加 #scenario-01、#scenario-02 或 #scenario-03 會直接開在該分頁
 gate.js           密碼畫面（只存密碼的雜湊值，不存密碼本身）
 scenario-01/      Scenario 01：Silver City Compact
 scenario-02/      Scenario 02：The Silicon Shield
+scenario-03/      Scenario 03：Baeksang
 
 密碼畫面
-• 打開網站會先出現密碼畫面，輸入正確才會載入兩個情境。同一個瀏覽器分頁解鎖一次後，重新整理不用再輸入；關掉分頁後要重新輸入。
-• 直接打開 scenario-01/index.html 或 scenario-02/index.html 也會先導回密碼畫面。
+• 打開網站會先出現密碼畫面，輸入正確才會載入情境。同一個瀏覽器分頁解鎖一次後，重新整理不用再輸入；關掉分頁後要重新輸入。
+• 直接打開任何一個 scenario-0X/index.html 也會先導回密碼畫面。
 • 這只是擋一般訪客的簡單鎖：網站是公開的靜態檔案，懂技術的人仍可以從 GitHub 儲存庫看到所有內容。
 • 要換密碼：告訴 Claude 新密碼，它會更新 gate.js 裡的雜湊值。
 
 分頁
-• 每個情境都是獨立的網頁，蓋滿整個視窗顯示；兩邊的頂端列和分頁相同，版面在任何視窗大小下都一致。
-• 切換分頁不會重新載入，兩邊停留的年份和畫面都會保留。
-• 也可以單獨打開 scenario-01/index.html 或 scenario-02/index.html；點另一個分頁會回到最外層的 index.html。
-• 每個情境資料夾裡的 s1-tabs.js／s2-tabs.js 是同一份分頁程式。
+• 每個情境都是獨立的網頁，蓋滿整個視窗顯示；三個情境的頂端列和分頁相同，版面在任何視窗大小下都一致。
+• 切換分頁不會重新載入，各情境停留的年份和畫面都會保留。
+• 解鎖後也可以單獨打開 scenario-0X/index.html；點另一個分頁會回到最外層的 index.html。
+• 每個情境資料夾裡的 s1-tabs.js／s2-tabs.js／s3-tabs.js 是同一份分頁程式，要改就三份一起改。
 
 
 Scenario 02 — The Silicon Shield（scenario-02/）
@@ -59,3 +60,8 @@ assets/city-contours.js 定義 11 個主體的 SVG 遮罩與進場方向。
 
 Scenario 01 — Silver City Compact（scenario-01/）
 說明見 scenario-01/README.txt。
+
+
+Scenario 03 — Baeksang（scenario-03/）
+原始說明見 scenario-03/README.txt。放進 Web Demo 時依照 Scenario 01、02 調整：頂端分頁、標題列尺寸、拖時間軸只淡入淡出線條、不顯示 2070 才能進入的提示與載入文字、2070 點擊提示為橘色、Back 按鈕、地點卡片淡入淡出且不顯示提問區塊、看過的地點維持 + 號；另外拿掉了原本放大的時間軸文字、圖下說明和關係描述字級，尺寸與另外兩個情境相同。配色維持 Scenario 03 自己的金色與深藍，但關係圖背景改成和 Scenario 01 一樣的深青色加淡格線。
+進入城市時主體切割進場：assets/s3-city-contours.js 定義 8 個主體的輪廓（六個地點，加上左下市集攤位和中下軌道），各自從不同方向滑入，之後完整插圖淡入。
