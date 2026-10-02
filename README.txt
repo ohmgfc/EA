@@ -66,3 +66,11 @@ Scenario 01 — Silver City Compact（scenario-01/）
 Scenario 03 — Baeksang（scenario-03/）
 原始說明見 scenario-03/README.txt。放進 Web Demo 時依照 Scenario 01、02 調整：頂端分頁、標題列尺寸、拖時間軸只淡入淡出線條、不顯示 2070 才能進入的提示與載入文字、2070 點擊提示為橘色、Back 按鈕、地點卡片淡入淡出且不顯示提問區塊、看過的地點維持 + 號；另外拿掉了原本放大的時間軸文字、圖下說明和關係描述字級，尺寸與另外兩個情境相同。配色改成和 Scenario 01、02 相同（深青色、薄荷綠與橘色），關係圖背景和卡片也比照 Scenario 01 的城市角色圖。
 進入城市時主體切割進場：assets/s3-city-contours.js 定義 8 個主體的輪廓（六個地點，加上左下市集攤位和中下軌道），各自從不同方向滑入，之後完整插圖淡入。
+
+Scenario 01 — 2070 關係圖（scenario-01/s1-2070-network.js）
+• 2070 的關係圖依照 East Asia.pdf（Scenario 1 - VCS in 2070）：14 個節點、22 條帶箭頭的關係線，城市聯盟的虛線圈住三個會員城市。2026、2050 仍是原本的六種城市角色。
+• 節點類型（左側色條與右上圖例）：Public sector 粉、Industry 藍、Individual 綠。線的類型（底部篩選）：Economic 薄荷綠、Technology 藍、Governance 橘、Social 紫（PDF 目前沒有紫線，所以不顯示這個按鈕）。
+• 在 2070 點 City in Country A 兩次進入照護大樓；從大樓的各樓層 Trace 會回到對應節點（對照表在檔案最後的 placeCountry）。
+• 右側資訊欄的文字是依關係圖擬的草稿，直接改這個檔案即可。
+• 2026 的關係圖依照 East Asia.pdf（Scenario 1 - VCS in 2026），格式與 2070 相同，資料在 scenario-01/s1-2026-network.js；9 個節點、19 條關係線（三國政府之間的 Visa 與 territorial disputes 外圈弧線、政府與城市的 Governance／Taxation、服務業者、城市之間的交流與資源競爭）。例子城市同 2070 用 Sendai、Wonju、Cebu。
+• 2050 目前畫布顯示 Under development。
