@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102c35">
+  <title>The Silicon Shield</title>
+  <meta name="description" content="Select South Korea to explore its information, then click again to see the scene within the shield in 2070.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23102c35'/%3E%3Cpath d='M16 5 26 9v8c0 5-6 9-10 11C12 26 6 22 6 17V9Z' fill='%239ee4cc'/%3E%3Cpath d='M12 12h8v8h-8z' fill='%23102c35'/%3E%3C/svg%3E">
+  <link rel="preload" as="image" href="assets/samsung-city-2070-v3.webp">
+  <link rel="stylesheet" href="zoom.css">
+  <script src="assets/geography.js" defer></script><script src="zoom-data.js" defer></script><script src="zoom-timeline.js" defer></script><script src="assets/city-contours.js" defer></script><script src="zoom.js" defer></script><script src="s2-tabs.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="../index.html" target="_top"><span>EA</span>EAST ASIA FUTURES</a><nav class="scenario-tabs" role="tablist" aria-label="Scenarios"><button type="button" role="tab" id="tab-01" data-scenario="01" aria-selected="false" tabindex="-1">SCENARIO 01</button><button type="button" role="tab" id="tab-02" data-scenario="02" aria-selected="true">SCENARIO 02</button></nav><span class="original-link" style="text-decoration:none">Offline edition</span></header>
+  <main>
+    <div class="page-heading"><div><p class="eyebrow" id="scale-label">01 / THE WORLD</p><h1 id="page-title">The Silicon Shield.</h1></div><div class="journey-controls"><p id="instruction">Click <strong>South Korea</strong> to view its information.</p><button id="return-map" hidden aria-label="Back to the world map">Back</button></div></div>
+    <div class="workspace">
+      <div class="visual-column">
+      <section class="visual-area" aria-label="World map and Within the Shield, shared interactive canvas">
+        <div class="graphic" id="graphic" data-view="map" aria-busy="false">
+          <div class="scene-ground" aria-hidden="true"></div>
+          <svg id="world-map" viewBox="0 90 1000 563" aria-label="Country map. Select South Korea for information, then activate it again to see the scene within the shield.">
+            <defs><pattern id="grid" width="55" height="55" patternUnits="userSpaceOnUse"><path d="M55 0H0V55" fill="none" stroke="#b3e1d3" stroke-opacity=".06"/></pattern></defs>
+            <rect x="-3000" y="-2000" width="6000" height="4000" fill="#102c35"/>
+            <rect x="0" y="90" width="1000" height="563" fill="url(#grid)"/>
+            <g id="geography"></g><g id="connections" aria-hidden="true"></g><g id="countries"></g>
+            <text x="230" y="170" class="region-label">ASIA</text><text x="710" y="565" class="ocean-label">PHILIPPINE SEA</text><text x="813" y="136" class="external-label">BEYOND THE REGION</text>
+          </svg>
+          <div class="city-art" id="city-art" aria-hidden="true">
+            <img class="city-final" id="city-final" src="assets/samsung-city-2070-v3.webp" width="1672" height="941" alt="Within the Shield in 2070, with a quantum garden, memory fabrication campus, maglev terminal, regenerative clinic, civic plaza and Korean older neighbourhood.">
+            <div class="districts" id="districts" aria-hidden="true"></div>
+          </div>
+          <div id="hotspots" class="hotspots" inert aria-hidden="true"></div>
+          <div class="canvas-caption" id="canvas-caption"><span class="legend-chip"></span> SILICON SHIELD ISLAND CHAIN<span class="caption-right">Select a country</span></div>
+          <div class="load-error" id="load-error" hidden><p>The city illustration could not load.</p><button id="retry-image">Try again</button></div>
+        </div>
+      </section>
+      <section class="timeline" id="timeline" aria-label="Scenario timeline" aria-describedby="timeline-note">
+        <div class="timeline-heading"><label class="timeline-kicker" for="year-slider">DRAG TO EXPLORE</label><p id="timeline-note">Global supply chains, divided strategic interests.</p></div>
+        <input id="year-slider" class="year-slider" type="range" min="0" max="2" step="0.01" value="0" aria-label="Scenario year" aria-valuetext="2026 — Interdependence" aria-describedby="timeline-note">
+        <div class="timeline-track" role="group" aria-label="Choose a year">
+          <button type="button" data-year="2026" aria-pressed="true" class="active"><span class="timeline-dot" aria-hidden="true"></span><strong>2026</strong><span class="year-title">Interdependence</span></button>
+          <button type="button" data-year="2050" aria-pressed="false"><span class="timeline-dot" aria-hidden="true"></span><strong>2050</strong><span class="year-title">The shield takes shape</span></button>
+          <button type="button" data-year="2070" aria-pressed="false"><span class="timeline-dot" aria-hidden="true"></span><strong>2070</strong><span class="year-title">Power and its price</span></button>
+        </div>
+      </section>
+      </div>
+      <aside class="info-panel" aria-label="Explore the current view">
+        <div id="country-panel"><div class="panel-kicker"><span id="country-category"></span><span id="country-code"></span></div><h2 id="country-name"></h2><p class="country-role" id="country-role"></p><p class="description" id="country-description"></p><div id="relationships" class="relationships"></div><div class="tension"><p class="eyebrow">THE TENSION</p><p id="country-tension"></p></div><p class="korea-tip">Select <strong>South Korea</strong> to read its country information. Click it again to see the scene within the shield.</p></div>
+        <div id="city-panel" hidden><div class="panel-kicker"><span></span><span>KR</span></div><h2>Within the Shield</h2><p class="country-role">A day in the memory economy</p><p class="description">Quantum gardens. Grown-to-order care. Explore six places and the choices behind everyday life.</p><div id="place-list" class="place-list"></div><p class="explored" id="explored">0 / 6 explored</p><div class="tension"><p class="eyebrow">THE PARADOX</p><p>Are we protecting our own future or becoming prisoners of the shield?</p></div></div>
+      </aside>
+    </div>
+    <footer class="canvas-footer"><div id="filters" role="group" aria-label="Relationship types"><button class="selected" data-filter="all" aria-pressed="true">All relationships</button><button data-filter="supply" aria-pressed="false"><i class="supply"></i>Supply &amp; trust</button><button data-filter="pressure" aria-pressed="false"><i class="pressure"></i>Pressure &amp; limits</button></div><p id="footer-note">Thematic relationships, not physical routes.</p><button class="about-button" id="about-button">About this scenario</button></footer>
+    <p class="sr-only" id="announcer" aria-live="polite"></p>
+  </main>
+  <dialog id="place-dialog" aria-labelledby="place-title"><button class="close-dialog" aria-label="Close place details">×</button><p class="eyebrow" id="place-category"></p><p class="place-location" id="place-location"></p><h2 id="place-title"></h2><p class="moment" id="place-moment"></p><hr><p class="eyebrow">WHAT SHAPES THIS MOMENT</p><p class="explanation" id="place-explanation"></p><button class="trace" id="trace">Trace the international relationship</button><div class="dialog-footer"><span id="place-progress"></span><button id="next-place">Next place</button></div></dialog>
+  <dialog id="about-dialog" aria-labelledby="about-title"><button class="close-dialog" aria-label="Close scenario information">×</button><p class="eyebrow">EAST ASIA FUTURES / SCENARIO 02</p><h2 id="about-title">About this scenario</h2><p class="explanation">The 2026, 2050 and 2070 maps are interpretive snapshots of a scenario pathway, not forecasts or quantitative measures of bilateral ties. 2026 introduces its starting conditions; 2050 and 2070 imagine how relationships could evolve. The scenario is adapted from the supplied “East Asia — Three scenarios” draft. KorMem Alliance succeeds Samsung and SK Hynix in this fictional future.</p><p class="explanation">The Q-Garden, living-compute cartridges and everyday encounters are fictional details. The artwork is AI-generated. This is not a Samsung publication.</p><p class="explanation">Geography: <a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noreferrer">Natural Earth</a>. Interaction reference: <a href="https://www.bcg.com/publications/2026/beyond-tomorrow-four-scenarios-for-the-world-of-2050" target="_blank" rel="noreferrer">BCG’s Beyond Tomorrow</a>.</p></dialog>
+</body>
+</html>
