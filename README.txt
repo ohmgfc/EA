@@ -9,6 +9,7 @@ East Asia Futures — Web Demo（Scenario 01、02、03）
 index.html        網頁入口：預設打開 Scenario 01，只負責顯示其中一個情境與切換分頁
 scenario-tabs.js  分頁切換；網址加 #scenario-01、#scenario-02 或 #scenario-03 會直接開在該分頁
 gate.js           密碼畫面（只存密碼的雜湊值，不存密碼本身）
+set-version.py    發布前執行：替所有程式與樣式檔加上同一個版本號（?v=），避免瀏覽器快取混用新舊檔案
 scenario-01/      Scenario 01：Silver City Compact
 scenario-02/      Scenario 02：The Silicon Shield
 scenario-03/      Scenario 03：Baeksang
@@ -63,5 +64,5 @@ Scenario 01 — Silver City Compact（scenario-01/）
 
 
 Scenario 03 — Baeksang（scenario-03/）
-原始說明見 scenario-03/README.txt。放進 Web Demo 時依照 Scenario 01、02 調整：頂端分頁、標題列尺寸、拖時間軸只淡入淡出線條、不顯示 2070 才能進入的提示與載入文字、2070 點擊提示為橘色、Back 按鈕、地點卡片淡入淡出且不顯示提問區塊、看過的地點維持 + 號；另外拿掉了原本放大的時間軸文字、圖下說明和關係描述字級，尺寸與另外兩個情境相同。配色維持 Scenario 03 自己的金色與深藍，但關係圖背景改成和 Scenario 01 一樣的深青色加淡格線。
+原始說明見 scenario-03/README.txt。放進 Web Demo 時依照 Scenario 01、02 調整：頂端分頁、標題列尺寸、拖時間軸只淡入淡出線條、不顯示 2070 才能進入的提示與載入文字、2070 點擊提示為橘色、Back 按鈕、地點卡片淡入淡出且不顯示提問區塊、看過的地點維持 + 號；另外拿掉了原本放大的時間軸文字、圖下說明和關係描述字級，尺寸與另外兩個情境相同。配色改成和 Scenario 01、02 相同（深青色、薄荷綠與橘色），關係圖背景和卡片也比照 Scenario 01 的城市角色圖。
 進入城市時主體切割進場：assets/s3-city-contours.js 定義 8 個主體的輪廓（六個地點，加上左下市集攤位和中下軌道），各自從不同方向滑入，之後完整插圖淡入。

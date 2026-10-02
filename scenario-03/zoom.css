@@ -24,45 +24,21 @@ dialog{color-scheme:light;background:#f9fcfa;color:#15383e;border:0;border-radiu
 /* Moving layers are whole subjects clipped to their silhouettes, not image tiles. */
 .district svg{display:block;width:100%;height:100%;overflow:hidden}.city-final{z-index:0}.districts{z-index:1}
 
-/* Scenario 03 keeps the map-to-place structure, with a restrained festival palette. */
-:root{--ink:#17283b;--deep:#101d30;--mint:#ead19b;--coral:#eaa692;--muted:#bdcbd2;color:#f6f7f4}
-.visual-column,.visual-area{background:#142338}.timeline{background:#17283b}
-.scene-ground{background:#1d3040}
-.land{fill:#283e51;stroke:#4c6471}.land[data-country]:hover{fill:#607985}
-.land.shield{fill:#6c7884;stroke:#dfcfaa}.land.selected{fill:#e8d3a2;stroke:#fff0cb}
-.graphic[data-year="2026"] .land.shield:not(.selected){fill:#405669;stroke:#8095a0}
-.node .dot{fill:#f6dcaa}.node-sub{fill:#e5d3aa}.node-label{fill:#f4f3ed}
-.external rect{fill:#22384a;stroke:#6d8490}.node.external:hover rect,.node.external.selected rect{fill:#405868}
-.korea-ring{stroke:#f4dcad}.map-link{stroke:#edcf93}.map-link.pressure{stroke:#eaa692}
-.canvas-caption{background:linear-gradient(transparent,#17283bc9);color:#f3deaf}.caption-right{color:#d7d7ce}
-.graphic[data-view=city] .canvas-caption{background:#142338cc;color:#fff8e8}
-.graphic[data-view=city] .caption-right{color:#eee0c0}.graphic[data-view=city] .legend-chip{background:#f1d595}
-.pin-circle{background:#17283b}.pin:hover .pin-circle,.pin:focus-visible .pin-circle{background:#9b613f}
-.pin.visited .pin-circle{background:#557267}.pin-label{background:#fffaf0f2}
-.brand>span,#return-map{border-color:#a88d60}.canvas-footer button.selected{background:#3d4b58;border-color:#b7a477}
-dialog{background:#fbf9f4;color:#263a40}dialog .eyebrow,.trace{color:#77643f}.moment{color:#48606b}
-.question{background:#f0ead9;border-left-color:#c7a466}.dialog-footer button{color:#62502f;border-color:#cfc19f}
-/* Scenario 3 system diagram, adapted from the supplied relationship chart. */
-
+/* Scenario 3 system diagram, adapted from the supplied relationship chart. It uses the Scenario 01/02 palette:
+   dark teal cards like Scenario 01's city-role network, mint and coral relationship lines from the base styles. */
 #world-map .diagram-overline{font-size:11px;fill:#9cbab2;letter-spacing:.13em;font-weight:700}
-#world-map .diagram-core rect{fill:#e7ede9;stroke:#9fbcb3;stroke-width:1.5}
-#world-map .core-kicker{fill:#4a736d;font-size:10px;font-weight:700;letter-spacing:.12em}
-#world-map .core-title{fill:#203c42;font-family:Georgia,serif;font-size:22px}
-#world-map .core-sub{fill:#576f6d;font-size:12px}
-#world-map .map-link{stroke:#6d9a89;stroke-width:2;opacity:.48;vector-effect:non-scaling-stroke}
-#world-map .map-link.pressure{stroke:#b57577;stroke-dasharray:5 5}
-#world-map .map-link.focused{opacity:1;stroke-width:3}
-#world-map .map-link.filtered{opacity:0}
+#world-map .diagram-core rect{fill:#15353e;stroke:#52737a;stroke-width:1.5}
+#world-map .core-kicker{fill:var(--mint);font-size:10px;font-weight:700;letter-spacing:.12em}
+#world-map .core-title{fill:#e1f1eb;font-family:Georgia,serif;font-size:22px}
+#world-map .core-sub{fill:#b0d2c8;font-size:12px}
 #world-map .actor{cursor:pointer;touch-action:manipulation}
-#world-map .actor-card{fill:#dce9ed;stroke:#b8cbd0;stroke-width:1.5;transition:fill .2s,stroke .2s,filter .2s}
-#world-map .actor.government .actor-card{fill:#eedce7;stroke:#d8bacc}
-#world-map .actor.audience .actor-card{fill:#e3ecd1;stroke:#cad9af}
-#world-map .actor.western .actor-card{fill:#d9e4f5;stroke:#b9cbe5}
-#world-map .actor.selected .actor-card,#world-map .actor:hover .actor-card,#world-map .actor:focus-visible .actor-card{fill:#fff7df;stroke:#a77a3f;stroke-width:2.5;filter:drop-shadow(0 3px 8px #1e41442c)}
-#world-map .actor .node-label{fill:#203a40;font-size:15px;font-weight:700;stroke:none;paint-order:normal;pointer-events:none}
-#world-map .actor .node-sub{fill:#54706c;font-size:10px;font-weight:600;letter-spacing:.08em;stroke:none;paint-order:normal;pointer-events:none}
+#world-map .actor-card{fill:#173941;stroke:#527b7a;stroke-width:1.3;transition:fill .2s,stroke .2s}
+#world-map .actor.selected .actor-card{fill:#285851;stroke:#baf0d8;stroke-width:2}
+#world-map .actor:hover .actor-card,#world-map .actor:focus-visible .actor-card{fill:#254d50;stroke:#e2fff2}
+#world-map .actor .node-label{fill:#f2f8f1;font-size:15px;font-weight:700;stroke:none;paint-order:normal;pointer-events:none}
+#world-map .actor .node-sub{fill:#a9c9bf;font-size:10px;font-weight:600;letter-spacing:.08em;stroke:none;paint-order:normal;pointer-events:none}
 #world-map .actor:focus-visible{outline:none}
-#world-map .actor:focus-visible .actor-card{stroke:#ad5c47;stroke-width:3}
+#world-map .actor:focus-visible .actor-card{stroke:var(--coral);stroke-width:3}
 #world-map .diagram-core{pointer-events:none}
 
 /* Shared with Scenario 01 and 02 (scenario-02/zoom.css): tabs, heading, dialogs and prompts. */
