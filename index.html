@@ -3,15 +3,45 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102c35">
-  <title>Silver City Compact — Inside a Care City</title>
+  <title>East Asia Futures</title>
   <meta name="description" content="East Asia Futures: two interactive scenarios, Silver City Compact and The Silicon Shield.">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23102c35'/%3E%3Cpath d='M16 5 26 9v8c0 5-6 9-10 11C12 26 6 22 6 17V9Z' fill='%239ee4cc'/%3E%3Cpath d='M12 12h8v8h-8z' fill='%23102c35'/%3E%3C/svg%3E">
-  <!-- Each scenario is its own page in a full-window frame; their top bars hold the tabs and ask this page to switch. -->
-  <style>html,body{margin:0;height:100%;overflow:hidden;background:#102c35}iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#102c35}[hidden]{display:none!important}</style>
+  <script>try{if(sessionStorage.getItem('ea-unlocked')==='1')document.documentElement.classList.add('unlocked')}catch(e){}</script>
+  <!-- Each scenario is its own page in a full-window frame; their top bars hold the tabs and ask this page to switch.
+       Frames only get their src after the password screen (gate.js) is passed. -->
+  <style>
+    html,body{margin:0;height:100%;overflow:hidden;background:#102c35}
+    iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#102c35}
+    [hidden]{display:none!important}
+    html:not(.unlocked) iframe,html.unlocked .gate{display:none}
+    .gate{min-height:100%;display:grid;place-items:center;padding:24px 16px;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;color:#f4faf7}
+    .gate form{width:min(360px,100%)}
+    .gate-brand{display:flex;align-items:center;gap:10px;letter-spacing:.11em;font-size:12px;font-weight:700;margin:0 0 34px}
+    .gate-brand span{border:1px solid #61978b;padding:9px;color:#9ee4cc;font-size:10px}
+    .gate h1{font-family:Georgia,serif;font-weight:400;font-size:32px;letter-spacing:-.03em;margin:0 0 22px}
+    .gate label{display:block;font-size:11px;letter-spacing:.11em;color:#9ee4cc;font-weight:700;margin-bottom:9px}
+    .gate-row{display:flex;gap:8px}
+    .gate input{flex:1;min-width:0;font:inherit;font-size:16px;color:#f4faf7;background:#0c252e;border:1px solid #456b67;border-radius:3px;padding:11px 12px}
+    .gate input:focus{outline:2px solid #9ee4cc;outline-offset:1px}
+    .gate button{font:inherit;font-size:14px;color:#9ee4cc;background:transparent;border:1px solid #6da798;border-radius:3px;padding:0 18px;cursor:pointer}
+    .gate button:hover{background:#284a51}
+    .gate button:focus-visible{outline:3px solid #f3a081;outline-offset:3px}
+    .gate-error{color:#f3a081;font-size:13px;margin:12px 0 0}
+  </style>
 </head>
 <body>
-  <iframe id="scenario-01" src="scenario-01/index.html" title="Scenario 01: Silver City Compact" data-title="Silver City Compact — Inside a Care City" loading="lazy"></iframe>
-  <iframe id="scenario-02" src="scenario-02/index.html" title="Scenario 02: The Silicon Shield" data-title="The Silicon Shield" loading="lazy" hidden></iframe>
+  <main class="gate">
+    <form id="gate-form" autocomplete="on">
+      <p class="gate-brand"><span>EA</span>EAST ASIA FUTURES</p>
+      <h1>Enter the password.</h1>
+      <label for="gate-password">PASSWORD</label>
+      <div class="gate-row"><input id="gate-password" name="password" type="password" autocomplete="current-password" required><button type="submit">Open</button></div>
+      <p class="gate-error" id="gate-error" role="alert" hidden>Incorrect password. Please try again.</p>
+    </form>
+  </main>
+  <iframe id="scenario-01" data-src="scenario-01/index.html" title="Scenario 01: Silver City Compact" data-title="Silver City Compact — Inside a Care City"></iframe>
+  <iframe id="scenario-02" data-src="scenario-02/index.html" title="Scenario 02: The Silicon Shield" data-title="The Silicon Shield" hidden></iframe>
+  <script src="gate.js"></script>
   <script src="scenario-tabs.js"></script>
 </body>
 </html>

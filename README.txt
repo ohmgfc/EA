@@ -8,8 +8,15 @@ East Asia Futures — Web Demo（Scenario 01 + Scenario 02）
 資料夾結構
 index.html        網頁入口：預設打開 Scenario 01，只負責顯示其中一個情境與切換分頁
 scenario-tabs.js  分頁切換；網址加 #scenario-01 或 #scenario-02 會直接開在該分頁
+gate.js           密碼畫面（只存密碼的雜湊值，不存密碼本身）
 scenario-01/      Scenario 01：Silver City Compact
 scenario-02/      Scenario 02：The Silicon Shield
+
+密碼畫面
+• 打開網站會先出現密碼畫面，輸入正確才會載入兩個情境。同一個瀏覽器分頁解鎖一次後，重新整理不用再輸入；關掉分頁後要重新輸入。
+• 直接打開 scenario-01/index.html 或 scenario-02/index.html 也會先導回密碼畫面。
+• 這只是擋一般訪客的簡單鎖：網站是公開的靜態檔案，懂技術的人仍可以從 GitHub 儲存庫看到所有內容。
+• 要換密碼：告訴 Claude 新密碼，它會更新 gate.js 裡的雜湊值。
 
 分頁
 • 每個情境都是獨立的網頁，蓋滿整個視窗顯示；兩邊的頂端列和分頁相同，版面在任何視窗大小下都一致。
