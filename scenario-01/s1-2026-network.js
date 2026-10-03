@@ -13,11 +13,11 @@ stage.linkTypes=[['economic','Economic','Economic & Material'],['technology','Te
 
 // Ids shared with s1-2070-network.js mark the same actor, which glides between years; Other Cities (2026) becomes Non-compact Cities (2070).
 stage.nodes={
- govA:{x:491,y:130,kind:'public',label:'Central Gov A',sub:'e.g. Japan'},
- providers:{x:240,y:325,w:168,h:62,kind:'industry',label:'Regional Commercial\nProviders',sub:'e.g. mobility, healthcare'},
- cityA:{x:491,y:281,kind:'public',label:'City in Country A',sub:'e.g. Sendai'},
- outskirt:{x:735,y:262,kind:'public',label:'Outskirt Towns',sub:'Neighbouring areas'},
- noncompact:{x:735,y:330,kind:'public',label:'Other Cities',sub:'in Country A'},
+ govA:{x:505,y:130,kind:'public',label:'Central Gov A',sub:'e.g. Japan'},
+ providers:{x:240,y:325,w:194,h:72,kind:'industry',label:'Regional Commercial\nProviders',sub:'e.g. mobility, healthcare'},
+ cityA:{x:505,y:281,kind:'public',label:'City in Country A',sub:'e.g. Sendai'},
+ outskirt:{x:735,y:255,kind:'public',label:'Outskirt Towns',sub:'Neighbouring areas'},
+ noncompact:{x:735,y:335,kind:'public',label:'Other Cities',sub:'in Country A'},
  cityB:{x:324,y:487,kind:'public',label:'City in Country B',sub:'e.g. Wonju'},
  cityC:{x:674,y:487,kind:'public',label:'City in Country C',sub:'e.g. Cebu'},
  govB:{x:90,y:567,kind:'public',label:'Central Gov B',sub:'e.g. South Korea'},
@@ -33,9 +33,9 @@ stage.links=[
  // at each actor, links of the same colour sit next to each other.
  // Between national governments: visas (governance, outer) and alliance politics (social, inner), as the diagram's outer arcs.
  {a:'govA',b:'govB',type:'governance',pa:['l',-6],pb:['t',-36],bend:240,both:true,label:'Visa',at:.5,off:7},
- {a:'govA',b:'govB',type:'social',pa:['l',6],pb:['t',-24],bend:240,both:true,label:disputes,at:.72,off:-5},
+ {a:'govA',b:'govB',type:'social',pa:['l',6],pb:['t',-24],bend:240,both:true,label:disputes,at:.8,off:-5},
  {a:'govA',b:'govC',type:'governance',pa:['r',-6],pb:['t',36],bend:-240,both:true,label:'Visa',at:.5,off:-7},
- {a:'govA',b:'govC',type:'social',pa:['r',6],pb:['t',24],bend:-240,both:true,label:disputes,at:.72,off:5},
+ {a:'govA',b:'govC',type:'social',pa:['r',6],pb:['t',24],bend:-240,both:true,label:disputes,at:.8,off:5},
  {a:'govB',b:'govC',type:'governance',pa:['r',6],pb:['l',6],both:true,label:'Visa',at:.5,off:-6},
  {a:'govB',b:'govC',type:'social',pa:['r',16],pb:['l',16],both:true,label:disputes,at:.5,off:6},
  // Each government and its city: governance and taxation side by side; the red governance lines sit next to the red visa lines.
@@ -47,14 +47,14 @@ stage.links=[
  {a:'govC',b:'cityC',type:'governance',pa:['l',-6],pb:['r',10],both:true,label:'Governance',at:.5,off:-6},
  // Service providers: the three economic links leave together around the box's right side and lower right corner; each carries its own label.
  // The box sits as far left as the outer Gov A–Gov B arcs allow.
- {a:'govA',b:'providers',type:'technology',pa:['b',-50],pb:['t',10],bend:30,both:true,label:'Negotiate / collaborate',at:.5,off:-6},
- {a:'providers',b:'cityA',type:'economic',pa:['r',-22],pb:['l',10],both:true,label:'Goods / talent\ntrade and service',at:.5,off:-4},
+ {a:'govA',b:'providers',type:'technology',pa:['b',-50],pb:['t',10],bend:30,both:true,label:'Negotiate / collaborate',at:.32,off:-6},
+ {a:'providers',b:'cityA',type:'economic',pa:['r',-22],pb:['l',10],both:true,label:'Goods /\ntalent trade\nand service',at:.5,off:-4},
  {a:'providers',b:'cityB',type:'economic',pa:['b',30],pb:['t',-20],both:true,label:'Goods / talent\ntrade and service',at:.3,on:true},
  {a:'providers',b:'cityC',type:'economic',pa:['b',60],pb:['t',-40],bend:20,both:true,label:'Goods / talent\ntrade and service',at:.55,on:true},
  // Between cities.
- {a:'cityA',b:'cityB',type:'economic',pa:['b',-40],pb:['t',20],bend:-15,both:true,label:'Education, tourism,\ncultural exchange',at:.72,on:true},
- {a:'cityA',b:'outskirt',type:'economic',pa:['r',-6],pb:['l',13],both:true,label:'Resource compete',at:.5,off:-6},
- {a:'cityA',b:'noncompact',type:'economic',pa:['r',8],pb:['l',-14],both:true,label:'Resource compete',at:.5,off:6}
+ {a:'cityA',b:'cityB',type:'economic',pa:['b',-40],pb:['t',20],bend:-15,both:true,label:'Education, tourism,\ncultural exchange',at:.3,on:true},
+ {a:'cityA',b:'outskirt',type:'economic',pa:['r',-6],pb:['l',20],both:true,label:'Resource\ncompete',at:.5,off:-6},
+ {a:'cityA',b:'noncompact',type:'economic',pa:['r',8],pb:['l',-24],both:true,label:'Resource\ncompete',at:.5,off:6}
 ];
 
 // DRAFT panel wording (2026–2035 in S1_worldview.docx). Only heading and description show in the panel.

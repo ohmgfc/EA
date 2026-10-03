@@ -121,3 +121,30 @@ h1,h2,.transition-caption>strong,.node.kind-hub .node-label,.reading-heading,.pe
 .version-note{font-size:9px;line-height:11px;letter-spacing:.02em;color:#748290;white-space:nowrap}
 /* Match Scenario 01: no year label beside the title, and the panel shows only category, name, role and description. */
 #scale-label,#relationships,#country-panel .tension,#country-panel .korea-tip{display:none}
+/* Hub labels in the same sans-serif as the other nodes; smaller relationship filters. */
+.node.kind-hub .node-label{font-family:Arial,Helvetica,sans-serif;letter-spacing:0}
+@media(min-width:681px){#filters.canvas-filters{gap:5px}#filters.canvas-filters button{font-size:10px;padding:3px 8px;min-height:24px;gap:6px}#filters.canvas-filters i{width:13px}}
+/* Relationship filters as borderless chips: a soft fill, a brighter fill on hover, and an Earth underline on the active one. */
+#filters.canvas-filters{align-items:center}
+#filters.canvas-filters::before{content:'SHOW';font-size:9px;letter-spacing:.14em;color:#8a97a6;margin-right:4px}
+#filters.canvas-filters button{border:0;border-radius:999px;background:rgba(255,255,255,.07);color:#c8cfd7;cursor:pointer;box-shadow:inset 0 -2px 0 transparent;transition:background .15s,color .15s,box-shadow .15s}
+#filters.canvas-filters button:hover{background:rgba(255,255,255,.15);color:#ffffff}
+#filters.canvas-filters button.selected{background:rgba(255,255,255,.18);color:#ffffff;font-weight:700;box-shadow:inset 0 -2px 0 #b2a16a}
+#filters.canvas-filters button:focus-visible{outline:2px solid #b2a16a;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){#filters.canvas-filters button{transition:none}}
+/* Chips: no SHOW label and no underline; the active chip turns warm grey with Oxford blue text. */
+#filters.canvas-filters::before{content:none}
+#filters.canvas-filters button,#filters.canvas-filters button.selected{box-shadow:none}
+#filters.canvas-filters button.selected,#filters.canvas-filters button.selected:hover{background:#e9e3da;color:#002147}
+/* Active chip in the timeline's light blue, with Oxford blue text. */
+#filters.canvas-filters button.selected,#filters.canvas-filters button.selected:hover{background:#a8c8ec;color:#002147}
+/* No paradox / question block in the city view. */
+#city-panel .tension{display:none}
+/* Active chip: the hover fill, a step brighter; white text, regular weight. */
+#filters.canvas-filters button.selected,#filters.canvas-filters button.selected:hover{background:rgba(255,255,255,.26);color:#ffffff;font-weight:400}
+/* Smaller chips. */
+@media(min-width:681px){#filters.canvas-filters{gap:4px}#filters.canvas-filters button{font-size:9px;padding:2px 8px;min-height:20px;gap:5px}#filters.canvas-filters i{width:11px}}
+/* Resting chips a touch darker, still lighter than the map background. */
+#filters.canvas-filters button:not(.selected):not(:hover){background:rgba(255,255,255,.04)}
+/* Resting chip text in the legend grey. */
+#filters.canvas-filters button:not(.selected):not(:hover){color:#a0acba}

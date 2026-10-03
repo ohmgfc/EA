@@ -22,23 +22,23 @@ stage.eyebrow='ACTORS & RELATIONSHIPS / 2070';
 stage.kinds=[['public','Public sector'],['industry','Industry'],['individual','Individual']];
 // [type, short button label, full name from the diagram legend]
 stage.linkTypes=[['economic','Economic','Economic & Material'],['technology','Technology','Technology & Knowledge'],['governance','Governance','Governance & Urban Planning'],['social','Social','Social & Symbolic']];
-stage.ring={cx:434,cy:427,rx:172,ry:172,node:'compacts',members:['cityA','cityB','cityC']};   // the compact boundary; selecting node lights it and the links among members
+stage.ring={cx:434,cy:446,rx:180,ry:168,node:'compacts',members:['cityA','cityB','cityC']};   // the compact boundary; selecting node lights it and the links among members
 
 stage.nodes={
- compacts:{x:434,y:262,w:170,h:40,kind:'hub',label:'City Compacts'},
+ compacts:{x:434,y:262,w:204,h:48,kind:'hub',label:'City Compacts'},
  govA:{x:434,y:128,kind:'public',label:'Central Gov A',sub:'e.g. Japan'},
  capital:{x:165,y:182,kind:'public',label:'Capital cities',sub:'e.g. Tokyo'},
- providers:{x:112,y:290,w:168,h:62,kind:'industry',label:'Regional Commercial\nProviders',sub:'e.g. mobility, healthcare'},
- ageing:{x:105,y:400,kind:'individual',label:'Ageing society',sub:'Older residents'},
- govB:{x:95,y:548,kind:'public',label:'Central Gov B',sub:'e.g. South Korea'},
- cityA:{x:434,y:338,kind:'public',label:'City in Country A',sub:'e.g. Sendai'},
- cityB:{x:300,y:482,kind:'public',label:'City in Country B',sub:'e.g. Wonju'},
- cityC:{x:568,y:482,kind:'public',label:'City in Country C',sub:'e.g. Cebu'},
- govC:{x:790,y:560,kind:'public',label:'Central Gov C',sub:'e.g. the Philippines'},
+ providers:{x:112,y:290,w:194,h:72,kind:'industry',label:'Regional Commercial\nProviders',sub:'e.g. mobility, healthcare'},
+ ageing:{x:105,y:412,kind:'individual',label:'Ageing society',sub:'Older residents'},
+ govB:{x:95,y:572,kind:'public',label:'Central Gov B',sub:'e.g. South Korea'},
+ cityA:{x:434,y:352,kind:'public',label:'City in Country A',sub:'e.g. Sendai'},
+ cityB:{x:300,y:510,kind:'public',label:'City in Country B',sub:'e.g. Wonju'},
+ cityC:{x:568,y:510,kind:'public',label:'City in Country C',sub:'e.g. Cebu'},
+ govC:{x:790,y:576,kind:'public',label:'Central Gov C',sub:'e.g. the Philippines'},
  noncompact:{x:800,y:196,kind:'public',label:'Non-compact Cities',sub:'Outside the compact'},
  migrants:{x:905,y:272,kind:'individual',label:'Migrant Workers',sub:'Talent inflow'},
- outskirt:{x:800,y:348,kind:'public',label:'Outskirt Towns',sub:'At the urban edge'},
- climate:{x:905,y:430,kind:'individual',label:'Climate Immigrant',sub:'Talent inflow'}
+ outskirt:{x:800,y:342,kind:'public',label:'Outskirt Towns',sub:'At the urban edge'},
+ climate:{x:905,y:485,kind:'individual',label:'Climate Immigrant',sub:'Talent inflow'}
 };
 
 stage.links=[
@@ -46,14 +46,14 @@ stage.links=[
  // (anchor: 'start' or 'end' sets which side of lx the text runs).
  {a:'govA',b:'cityA',type:'governance',bend:-14,label:'National powers',lx:448,ly:200,anchor:'start'},
  {a:'cityA',b:'govA',type:'economic',bend:-14,label:'Taxation',lx:420,ly:200,anchor:'end'},
- {a:'govB',b:'cityB',type:'governance',bend:12,label:'National powers',lx:226,ly:536,anchor:'start'},
- {a:'cityB',b:'govB',type:'economic',bend:12,label:'Taxation',lx:184,ly:494},
- {a:'govC',b:'cityC',type:'governance',bend:-12,label:'National powers',lx:690,ly:556,anchor:'end'},
- {a:'cityC',b:'govC',type:'economic',bend:-12,label:'Taxation',lx:692,ly:500},
- {a:'govA',b:'noncompact',type:'economic',bend:-60,label:'Subsidy'},
+ {a:'govB',b:'cityB',type:'governance',bend:12,label:'National powers',lx:206,ly:570,anchor:'start'},
+ {a:'cityB',b:'govB',type:'economic',bend:12,label:'Taxation',lx:184,ly:522},
+ {a:'govC',b:'cityC',type:'governance',bend:-12,label:'National powers',lx:690,ly:578,anchor:'end'},
+ {a:'cityC',b:'govC',type:'economic',bend:-12,label:'Taxation',lx:692,ly:530},
+ {a:'govA',b:'noncompact',type:'economic',bend:-60,label:'Subsidy',at:.62,off:-6},
  {a:'govA',b:'outskirt',type:'economic',bend:-120,label:'Subsidy'},
  {a:'compacts',b:'capital',type:'economic',bend:25,label:'Partial membership'},
- {a:'compacts',b:'providers',type:'technology',bend:18,label:'Negotiate / collaborate'},
+ {a:'compacts',b:'providers',type:'technology',bend:18,label:'Negotiate / collaborate',at:.52,off:-6},
  {a:'compacts',b:'ageing',type:'economic',bend:-30,label:'Care responsibility'},
  {a:'compacts',b:'noncompact',type:'economic',bend:-22,label:'Limited resources'},
  {a:'noncompact',b:'compacts',type:'economic',bend:-12,label:'Talent inflow'},
@@ -65,8 +65,8 @@ stage.links=[
  {a:'cityA',b:'cityB',type:'governance',bend:44,both:true},
  {a:'cityA',b:'cityC',type:'economic',bend:-18,both:true},
  {a:'cityA',b:'cityC',type:'governance',bend:-44,both:true},
- {a:'cityB',b:'cityC',type:'economic',bend:18,both:true,label:'Talent Training, Recruitment,\nTechnology Support, Infrastructure\nInvestment and Standards',lx:434,ly:416,group:'cityA cityB cityC compacts'},
- {a:'cityB',b:'cityC',type:'governance',bend:46,both:true,label:'Joint Working Passport, Shared\nEnvironmental Standards, Shared Goods\nTrade and Mobility Standards, Pension Policy',lx:434,ly:530,group:'cityA cityB cityC compacts'}
+ {a:'cityB',b:'cityC',type:'economic',bend:18,both:true,label:'Talent Training,\nRecruitment, Technology\nSupport, Infrastructure\nInvestment and Standards',lx:434,ly:424,group:'cityA cityB cityC compacts'},
+ {a:'cityB',b:'cityC',type:'governance',bend:46,both:true,label:'Joint Working Passport, Shared\nEnvironmental Standards, Shared Goods\nTrade and Mobility Standards, Pension Policy',lx:434,ly:560,group:'cityA cityB cityC compacts'}
 ];
 
 // DRAFT panel wording, following S1_worldview.docx. Relation buttons jump to the related node.
