@@ -11,6 +11,7 @@
 const stage=window.SCENARIO_TIMELINE[2070];
 // 2050's network is still being written: the canvas shows this note instead of the diagram.
 window.SCENARIO_TIMELINE[2050].placeholder='Under development';
+window.SCENARIO_TIMELINE[2050].disabled=true;   // not selectable on the timeline until it is written
 Object.assign(window.SCENARIO_TIMELINE[2050],{title:'Under development',note:'Under development'});
 // The side panel shows the same note for every 2050 city role.
 Object.values(window.SCENARIO_TIMELINE[2050].countries).forEach(c=>Object.assign(c,{name:'Under development',code:'',category:'',role:'',description:'',tension:'',relations:[]}));

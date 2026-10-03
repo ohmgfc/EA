@@ -139,3 +139,12 @@ dialog[open]{animation:dialog-fade-in .25s ease-out}dialog[open]::backdrop{anima
 
 #country-panel.under-dev .relationships,#country-panel.under-dev .tension,#country-panel.under-dev .care-tip{display:none}
 .link-label.on-line{stroke-width:7}
+
+/* Tab labels share one baseline; a status line ([Developing]) sits under some, and an empty line of the same height under the rest. */
+.scenario-tabs [role=tab]{flex-direction:column;justify-content:center;gap:4px}.tab-status{display:block;font-size:8px;line-height:10px;letter-spacing:.03em;color:#6b6b6b}.scenario-tabs [role=tab]:not(.has-status)::after{content:'';display:block;height:10px}
+@media(max-width:680px){.tab-status{font-size:6px;line-height:8px}.scenario-tabs [role=tab]:not(.has-status)::after{height:8px}}
+.source-note{margin:0;color:#8aa3a2;font-size:10px}
+.map-source{position:absolute;z-index:5;right:14px;bottom:12px;line-height:28px;pointer-events:none}
+.graphic.under-dev .map-source{visibility:hidden}
+.info-panel{display:flex;flex-direction:column}.content-source{margin-top:auto;padding-top:24px;align-self:flex-end;text-align:right}
+@media(max-width:680px){.map-source{display:none}}
