@@ -46,13 +46,32 @@
   async function fade(list,from,to,duration){const batch=list.map(el=>el.animate([{opacity:from},{opacity:to}],{duration:reduced.matches?60:duration,easing:'ease-in-out',fill:'forwards'}));await Promise.allSettled(batch.map(a=>a.finished));list.forEach(el=>el.style.opacity=String(to));batch.forEach(a=>a.cancel())}
   try{
    while(pendingYear!==currentYear){
-    const target=pendingYear,list=setKeyFor(target)!==nodeSetKey?[...surfaces,...networkParts]:surfaces;
+    const target=pendingYear,from=currentYear;
+    if(stages[from].nodes&&stages[target].nodes&&!reduced.matches){
+     // Between two actor networks (2026 and 2070): actors in both glide to their new place, the rest fade; new actors fade in while they move, then the links and panel fade back in.
+     const before=stageNodes(from),after=stageNodes(target),parts=[...surfaces,q('#stage-decor'),q('#filters'),q('.network-eyebrow')];
+     // An actor whose name or subtitle changes keeps a copy of its old text, which fades out while the new text fades in.
+     const renamed=id=>after[id]&&(before[id].label!==after[id].label||before[id].sub!==after[id].sub),oldText={};
+     qa('#countries .node').forEach(g=>{if(renamed(g.dataset.country))oldText[g.dataset.country]=[...g.querySelectorAll(':scope > text')].map(t=>t.cloneNode(true))});
+     await fade([...parts,...qa('#countries .node').filter(g=>!after[g.dataset.country])],1,0,240);
+     renderYear(target);
+     const nodesNow=qa('#countries .node'),entering=nodesNow.filter(g=>!before[g.dataset.country]);
+     entering.forEach(g=>g.style.opacity='0');
+     const oldLabels=[],newLabels=[];
+     Object.entries(oldText).forEach(([id,texts])=>{const g=q(`#countries .node[data-country="${id}"]`);if(!g)return;const a=before[id],b=after[id],wrap=svg('g',{class:'label-swap',transform:`translate(${b.x-a.x} ${b.y-a.y})`,'aria-hidden':'true'});wrap.append(...texts);const fresh=[...g.querySelectorAll(':scope > text')];fresh.forEach(t=>t.style.opacity='0');g.append(wrap);oldLabels.push(wrap);newLabels.push(...fresh)});
+     const moves=nodesNow.filter(g=>before[g.dataset.country]).map(g=>{const a=before[g.dataset.country],b=after[g.dataset.country];return g.animate([{transform:`translate(${a.x-b.x}px,${a.y-b.y}px)`},{transform:'translate(0px,0px)'}],{duration:760,easing:'cubic-bezier(.65,0,.35,1)'})});
+     await Promise.all([Promise.allSettled(moves.map(m=>m.finished)),entering.length?fade(entering,0,1,400):null,oldLabels.length?fade(oldLabels,1,0,400):null,newLabels.length?fade(newLabels,0,1,400):null]);
+     oldLabels.forEach(w=>w.remove());
+     await fade(parts,0,1,300);
+     continue;
+    }
+    const list=setKeyFor(target)!==nodeSetKey?[...surfaces,...networkParts]:surfaces;
     await fade(list,1,0,220);
     renderYear(target);
     await fade(list,0,1,340);
    }
   }finally{
-   [...surfaces,...networkParts].forEach(el=>el.style.opacity='1');yearChanging=false;graphic.setAttribute('aria-busy','false');q('#country-panel').inert=false;enableMap(true);
+   [...surfaces,...networkParts].forEach(el=>el.style.opacity='1');qa('#countries .node,#countries text').forEach(g=>g.style.opacity='');qa('.label-swap').forEach(w=>w.remove());yearChanging=false;graphic.setAttribute('aria-busy','false');q('#country-panel').inert=false;enableMap(true);
   }
  }
  slider.addEventListener('input',()=>{if(state!=='map')return;sliderPosition(Number(slider.value));selectYear(years[Math.round(Number(slider.value))])});

@@ -57,7 +57,6 @@ stage.links=[
  {a:'compacts',b:'noncompact',type:'economic',bend:-22,label:'Limited resources'},
  {a:'noncompact',b:'compacts',type:'economic',bend:-12,label:'Talent inflow'},
  {a:'migrants',b:'compacts',type:'economic',bend:10,label:'Talent inflow'},
- {a:'outskirt',b:'compacts',type:'economic',bend:12,label:'Talent inflow'},
  {a:'climate',b:'compacts',type:'economic',bend:22,label:'Talent inflow'},
  // The member-city exchanges carry one shared label each, as in the diagram: economic inside the triangle, governance
  // below it. They show when any member city (or the compact) is selected. \n breaks a label into lines.
@@ -134,9 +133,9 @@ stage.countries={
   relations:[['compacts','Limited resources and talent outflow','Resources arrive in limited amounts while talent moves into the compact.'],['govA','Subsidy','Subsidies and basic guarantees.']]},
  outskirt:{name:'Outskirt Towns',code:'SUBURBS & RURAL',category:'PUBLIC SECTOR',
   role:'Where office workers now live',
-  description:'Urban housing offers poor value for money, and remote medical consultations and digital work are well developed, so most office workers live in suburbs and rural communities with more space and lower costs. These towns receive national subsidies and send talent into the compact cities.',
+  description:'Urban housing offers poor value for money, and remote medical consultations and digital work are well developed, so most office workers live in suburbs and rural communities with more space and lower costs. These towns receive national subsidies.',
   tension:'Subsidies may not keep pace with the loss of working-age residents.',
-  relations:[['compacts','Talent inflow','People move from outskirt towns into compact cities.'],['govA','Subsidy','National support for outskirt towns.']]},
+  relations:[['govA','Subsidy','National support for outskirt towns.']]},
  migrants:{name:'Migrant Workers',code:'CARE WORKFORCE',category:'INDIVIDUAL',
   role:'Hands-on care from other cities',
   description:'Care workers still provide personal care, rehabilitation, help with eating and companionship, and keep in touch with families. Most come from other cities under compact agreements, which safeguard their residency status and recognise their years of service.',

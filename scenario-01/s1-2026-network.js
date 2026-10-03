@@ -11,12 +11,13 @@ stage.eyebrow='ACTORS & RELATIONSHIPS / 2026';
 stage.kinds=[['public','Public sector'],['industry','Industry'],['individual','Individual']];
 stage.linkTypes=[['economic','Economic','Economic & Material'],['technology','Technology','Technology & Knowledge'],['governance','Governance','Governance & Urban Planning'],['social','Social','Social & Symbolic']];
 
+// Ids shared with s1-2070-network.js mark the same actor, which glides between years; Other Cities (2026) becomes Non-compact Cities (2070).
 stage.nodes={
  govA:{x:491,y:130,kind:'public',label:'Central Gov A',sub:'e.g. Japan'},
- providers:{x:240,y:325,w:168,h:62,kind:'industry',label:'Regional Service\nProviders',sub:'e.g. mobility, healthcare'},
+ providers:{x:240,y:325,w:168,h:62,kind:'industry',label:'Regional Commercial\nProviders',sub:'e.g. mobility, healthcare'},
  cityA:{x:491,y:281,kind:'public',label:'City in Country A',sub:'e.g. Sendai'},
  outskirt:{x:735,y:262,kind:'public',label:'Outskirt Towns',sub:'Neighbouring areas'},
- others:{x:735,y:330,kind:'public',label:'Other Cities',sub:'in Country A'},
+ noncompact:{x:735,y:330,kind:'public',label:'Other Cities',sub:'in Country A'},
  cityB:{x:324,y:487,kind:'public',label:'City in Country B',sub:'e.g. Wonju'},
  cityC:{x:674,y:487,kind:'public',label:'City in Country C',sub:'e.g. Cebu'},
  govB:{x:90,y:567,kind:'public',label:'Central Gov B',sub:'e.g. South Korea'},
@@ -53,7 +54,7 @@ stage.links=[
  // Between cities.
  {a:'cityA',b:'cityB',type:'economic',pa:['b',-40],pb:['t',20],bend:-15,both:true,label:'Education, tourism,\ncultural exchange',at:.72,on:true},
  {a:'cityA',b:'outskirt',type:'economic',pa:['r',-6],pb:['l',13],both:true,label:'Resource compete',at:.5,off:-6},
- {a:'cityA',b:'others',type:'economic',pa:['r',8],pb:['l',-14],both:true,label:'Resource compete',at:.5,off:6}
+ {a:'cityA',b:'noncompact',type:'economic',pa:['r',8],pb:['l',-14],both:true,label:'Resource compete',at:.5,off:6}
 ];
 
 // DRAFT panel wording (2026–2035 in S1_worldview.docx). Only heading and description show in the panel.
@@ -65,8 +66,8 @@ stage.countries={
  cityA:p('City in Country A','CITY','PUBLIC SECTOR','Sendai: finding its own solutions','One of the starting points. To address the caring needs of ageing people, Sendai works with neighbouring local authorities, hospitals and operators to convert buildings near healthcare and transport hubs into care accommodation.'),
  cityB:p('City in Country B','CITY','PUBLIC SECTOR','Wonju: growing, but ageing fast','An inland city in Gangwon Province and a major centre for South Korea’s medical device industry. Its population is still growing, but the proportion of older residents is rising rapidly, and the city government begins looking for additional care options for retirees and other residents.'),
  cityC:p('City in Country C','CITY','PUBLIC SECTOR','Cebu, linked through trade and exchange','A city in the Philippines connected to the other cities through goods, talent, services and exchange. Cross-border care is not yet part of these ties.'),
- providers:p('Regional Service Providers','SERVICES','INDUSTRY','Mobility, healthcare, education and more','Service providers trade goods, talent and services with cities across the region and negotiate and collaborate with national government.'),
+ providers:p('Regional Commercial Providers','SERVICES','INDUSTRY','Mobility, healthcare, education and more','Commercial providers trade goods, talent and services with cities across the region and negotiate and collaborate with national government.'),
  outskirt:p('Outskirt Towns','NEIGHBOURING AREAS','PUBLIC SECTOR','Ageing alongside the city','Neighbouring areas are also ageing. Outskirt towns compete with the city for the same resources: beds, funding and care workers.'),
- others:p('Other Cities in Country A','OTHER CITIES','PUBLIC SECTOR','Similar pressures, different pace','Population ageing, labour shortages and vacant buildings emerge at different rates across cities. Other cities in the same country compete for resources rather than share them.')
+ noncompact:p('Other Cities in Country A','OTHER CITIES','PUBLIC SECTOR','Similar pressures, different pace','Population ageing, labour shortages and vacant buildings emerge at different rates across cities. Other cities in the same country compete for resources rather than share them.')
 };
 })();
