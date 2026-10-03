@@ -1,4 +1,4 @@
-East Asia Futures — Scenario 03: Baeksang
+Futures of East Asia — Scenario 03: Baeksang
 
 Open index.html in a modern browser after extracting the complete ZIP. Keep the
 HTML, JavaScript, CSS and assets folder together. No installation, account,

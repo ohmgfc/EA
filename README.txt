@@ -1,4 +1,4 @@
-East Asia Futures — Web Demo（Scenario 01、02、03）
+Futures of East Asia — Web Demo（Scenario 01、02、03）
 
 開啟方式
 1. 打開資料夾最外層的 index.html（使用 Chrome、Edge、Firefox 或 Safari）。
