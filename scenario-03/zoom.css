@@ -104,3 +104,11 @@ dialog[open]{animation:dialog-fade-in .25s ease-out}dialog[open]::backdrop{anima
 /* Tab labels share one baseline; a status line ([Developing]) sits under some, and an empty line of the same height under the rest. */
 .scenario-tabs [role=tab]{flex-direction:column;justify-content:center;gap:4px}.tab-status{display:block;font-size:8px;line-height:10px;letter-spacing:.03em;color:#6b6b6b}.scenario-tabs [role=tab]:not(.has-status)::after{content:'';display:block;height:10px}
 @media(max-width:680px){.tab-status{font-size:6px;line-height:8px}.scenario-tabs [role=tab]:not(.has-status)::after{height:8px}}
+
+/* Fewer dividers: no line above the timeline or between the map and the information panel. */
+.timeline{border-top:0}.info-panel{border-left:0}
+@media(max-width:680px){.info-panel{border-top:0}}
+/* Even margins: the timeline text sits 25px above the bottom edge, matching its 25px side margins. */
+@media(min-width:681px){.timeline{padding-bottom:22px}}
+/* The dark frame around the map is 22px on all four sides. */
+@media(min-width:681px){.visual-area{padding-bottom:22px}}
